@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
+  .controller('MainCtrl', function () {
+    this.awesomeThings = [
       {
         'key': 'angular',
         'title': 'AngularJS',
@@ -67,7 +67,7 @@ angular.module('angularjsTutorial')
         'logo': 'node-sass.png'
       }
     ];
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
+    angular.forEach(this.awesomeThings, function(awesomeThing) {
       awesomeThing.rank = Math.random();
     });
   });
