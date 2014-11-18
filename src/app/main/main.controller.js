@@ -67,7 +67,4 @@ angular.module('angularjsTutorial')
         'logo': 'node-sass.png'
       }
     ];
-    angular.forEach(this.awesomeThings, function(awesomeThing) {
-      awesomeThing.rank = Math.random();
-    });
   });

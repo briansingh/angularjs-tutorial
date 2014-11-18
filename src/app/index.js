@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+var angularjsTutorial = angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router']);
+
+angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -10,5 +11,8 @@ angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
       });
 
     $urlRouterProvider.otherwise('/');
-  })
-;
+  });
+
+angularjsTutorial.controller('GlobalCtrl', function(){
+  this.message = "ThisGlobal";
+  });
