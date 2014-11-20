@@ -3,42 +3,39 @@
 describe('controllers', function(){
   beforeEach(module('angularjsTutorial'));
 
-  it('should define more than 5 awesome things', inject(function($controller) {
+  it('should have an array of todos', inject(function($controller) {
     var ctrl = $controller('MainCtrl', {});
-    expect(angular.isArray(ctrl.awesomeThings)).toBeTruthy();
-    expect(ctrl.awesomeThings.length > 5).toBeTruthy();
+    expect(angular.isArray(ctrl.todos)).toBeTruthy();
   }));
 
-  it('should have exactly 9 awesome things', inject(function($controller) {
+  it('should be able to add a todo', inject(function($controller) {
     var ctrl = $controller('MainCtrl', {});
-    expect(ctrl.awesomeThings.length === 9).toBeTruthy();
-  }));
-
-  it('should display items in expected positions', inject(function($controller) {
-    var ctrl = $controller('MainCtrl', {});
-
-    expect(ctrl.awesomeThings[0].key).toMatch('angular');
-    expect(ctrl.awesomeThings[1].key).toMatch('browsersync');
-    expect(ctrl.awesomeThings[2].key).toMatch('gulp');
-    expect(ctrl.awesomeThings[3].key).toMatch('jasmine');
-    expect(ctrl.awesomeThings[4].key).toMatch('karma');
-    expect(ctrl.awesomeThings[5].key).toMatch('protractor');
-    expect(ctrl.awesomeThings[6].key).toMatch('jquery');
-    expect(ctrl.awesomeThings[7].key).toMatch('bootstrap');
-    expect(ctrl.awesomeThings[8].key).toMatch('node-sass');
-  }));
-
-  it('should have all expected properties on each item', inject(function($controller) {
-    var ctrl = $controller('MainCtrl', {});
-
-    ctrl.awesomeThings.forEach(function (scenario) {
-      expect(scenario.key).toBeDefined();
-      expect(scenario.title).toBeDefined();
-      expect(scenario.url).toBeDefined();
-      expect(scenario.description).toBeDefined();
-      expect(scenario.logo).toBeDefined();
+    ctrl.addTodo({
+      title : 'test title'
     });
-
+    expect(ctrl.todos.length == 1).toBeTruthy();
   }));
-  
+
+  it('should be able to remove a todo', inject(function($controller) {
+    var ctrl = $controller('MainCtrl', {});
+    var title = 'test title';
+    ctrl.addTodo({
+      title : 'test title'
+    });
+    expect(ctrl.todos.length == 1).toBeTruthy();
+    ctrl.removeTodo(title);
+    expect(ctrl.todos.length == 0).toBeTruthy();
+  }));
+
+  it('should create "title" and "completed" properties on todo', inject(function($controller) {
+    var ctrl = $controller('MainCtrl', {});
+    ctrl.addTodo({
+      title : 'test title'
+    });
+    expect(ctrl.todos.length == 1).toBeTruthy();
+    expect(ctrl.todos[0].title).toBeDefined();
+    expect(ctrl.todos[0].completed).toBeDefined();
+    expect(ctrl.todos[0].completed).toBe(false);
+  }));
+
 });
