@@ -12,3 +12,17 @@
     width: 50px;
   }
 }
+  .todos {
+    padding: 1em 0;
+
+    .todo-item {
+      list-style: none;
+      padding: .5em 0;
+
+      &.completed {
+        input{
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
