@@ -52,5 +52,32 @@ describe('controllers', function(){
     expect(mainCtrl.todos[0].completed).toBe(false);
   }));
 
+  it('should be able to add a todo and return a reference to the newly created todo', inject(function($controller) {
+    var mainCtrl = $controller('MainCtrl', {
+      $scope : scope
+    });
+
+    var title = 'test title';
+    var newTodo = mainCtrl.addTodo({
+      title : title
+    });
+    expect(newTodo).toBeDefined();
+    expect(newTodo.title === title).toBeTruthy();
+  }));
+
+  it('should be able to remove a todo by reference', inject(function($controller) {
+    var mainCtrl = $controller('MainCtrl', {
+      $scope : scope
+    });
+
+    var title = 'test title';
+    var newTodo = mainCtrl.addTodo({
+      title : title
+    });
+
+    expect(mainCtrl.todos.length == 1).toBeTruthy();
+    mainCtrl.removeTodoByReference(newTodo);
+    expect(mainCtrl.todos.length == 0).toBeTruthy();
+  }));
 
 });

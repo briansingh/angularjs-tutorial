@@ -9,16 +9,25 @@ angular.module('angularjsTutorial')
     self.todos = [];
 
     self.addTodo = function(todo) {
-      self.todos.push({
+      var newTodo = {
         title : todo.title,
         completed : false
-      });
+      };
+
+      self.todos.push(newTodo);
       self.newTodoTitle = '';
+      return newTodo;
     };
 
     self.removeTodo = function(title) {
       self.todos = self.todos.filter(function(item){
         return item.title !== title;
+      });
+    };
+
+    self.removeTodoByReference = function(todo) {
+      self.todos = self.todos.filter(function(item){
+        return item !== todo;
       });
     };
 

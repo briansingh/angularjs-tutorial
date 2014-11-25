@@ -11,9 +11,13 @@ function handleError(err) {
   this.emit('end');
 }
 
-gulp.task('styles', ['wiredep'],  function () {
+gulp.task('styles', ['wiredep'], function () {
   return gulp.src('src/{app,components}/**/*.scss')
-    .pipe($.sass({style: 'expanded'}))
+    .pipe($.compass({
+      style: 'expanded',
+      sass: 'src',
+      css: '.tmp'
+    }))
     .on('error', handleError)
     .pipe($.autoprefixer('last 1 version'))
     .pipe(gulp.dest('.tmp'))
