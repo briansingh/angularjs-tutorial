@@ -15,6 +15,37 @@
   }
 }
 
+$item-height : 3em;
+
+.slide-animation{
+  @include transition(.3s ease all);
+  overflow: hidden;
+  position: relative;
+
+  &.ng-enter{
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+
+    &.ng-enter-active{
+      opacity: 1;
+      max-height: $item-height;
+      padding: .5em 0;
+    }
+  }
+
+  &.ng-leave{
+    opacity: 1;
+    max-height: $item-height;
+    padding: .5em 0;
+
+    &.ng-leave-active{
+      opacity: 0;
+      max-height: 0;
+      padding: 0;
+    }
+  }
+}
 
 .todos {
   padding: 1em 0;
@@ -22,16 +53,6 @@
   .todo-item {
     list-style: none;
     padding: .5em 0;
-
-    @include transition(1s ease opacity);
-
-    &.ng-enter{
-      opacity: 0;
-
-      &.ng-enter-active{
-        opacity: 1;
-      }
-    }
 
     &.completed {
       input{
