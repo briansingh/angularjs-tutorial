@@ -34,9 +34,9 @@ angular.module('angularjsTutorial')
     self.getToDoClasses = function(todo){
       return {
         'completed' : todo.completed
-      }
+      };
     };
-
+/*
     $scope.$watch(function(){
         return self.newTodoTitle;
       }, function(newValue, oldValue){
@@ -50,5 +50,5 @@ angular.module('angularjsTutorial')
         console.log('self.todos changed', newValue);
       },
       true);
-
+*/
   });

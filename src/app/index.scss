@@ -23,7 +23,7 @@ $item-height : 3em;
   position: relative;
 
   &.ng-enter{
-    @include animation(flipInX .5s);
+    @include animation(crash .5s);
     max-height: 0;
 
     &.ng-enter-active{
@@ -32,7 +32,7 @@ $item-height : 3em;
   }
 
   &.ng-leave{
-    @include animation(flipOutX .3s);
+    @include animation(hinge .3s);
     max-height: 4em;
 
     &.ng-leave-active{

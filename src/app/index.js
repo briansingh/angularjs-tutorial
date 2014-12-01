@@ -14,5 +14,5 @@ angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
   });
 
 angularjsTutorial.controller('GlobalCtrl', function(){
-  this.message = "ThisGlobal";
+  this.message = 'ThisGlobal';
   });
