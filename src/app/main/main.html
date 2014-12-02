@@ -13,12 +13,12 @@
   <div class="row">
     <div class="col-md-12">
       <ul class="todos">
-        <li class="todo-item slide-animation" ng-repeat="todo in mainCtrl.todos" ng-class="mainCtrl.getToDoClasses(todo)" >
+        <li class="todo-item slide-animation" ng-repeat="todo in mainCtrl.todos track by todo.id" ng-class="mainCtrl.getToDoClasses(todo)" >
           <div class="input-group">
             <span class="input-group-addon">
-              <input type="checkbox" ng-model="todo.completed" />
+              <input type="checkbox" ng-model="todo.completed" ng-change="mainCtrl.saveTodos()"/>
             </span>
-            <input type="text" class="form-control" ng-model="todo.title" />
+            <input type="text" class="form-control" ng-model="todo.title" ng-change="mainCtrl.saveTodos()"/>
             <span class="input-group-btn">
               <button class="btn btn-default" ng-click="mainCtrl.removeTodo(todo)">
                 <span class="glyphicon glyphicon-remove-circle"/>
