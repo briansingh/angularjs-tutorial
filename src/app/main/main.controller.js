@@ -1,54 +1,36 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, TodoService) {
+    console.log('MainCtrl instantiated');
     var self = this;
 
     self.newTodoTitle = '';
 
-    self.todos = [];
+    self.todos = TodoService.getTodos();
 
-    self.addTodo = function(todo) {
-      var newTodo = {
-        title : todo.title,
-        completed : false
-      };
+    self.getTodos = function(){
+      return self.todos = TodoService.getTodos();
+    };
 
-      self.todos.push(newTodo);
+    self.addTodo = function(options){
+      var newTodo = TodoService.addTodo(options);
+      self.getTodos();
+
       self.newTodoTitle = '';
+
       return newTodo;
     };
 
-    self.removeTodo = function(title) {
-      self.todos = self.todos.filter(function(item){
-        return item.title !== title;
-      });
+    self.removeTodo = function(todo){
+      TodoService.removeTodo(todo);
+      self.getTodos();
     };
 
-    self.removeTodoByReference = function(todo) {
-      self.todos = self.todos.filter(function(item){
-        return item !== todo;
-      });
-    };
-
-    self.getToDoClasses = function(todo){
+    self.getTodoClasses = function(todo){
       return {
         'completed' : todo.completed
-      };
+      }
     };
-/*
-    $scope.$watch(function(){
-        return self.newTodoTitle;
-      }, function(newValue, oldValue){
-        console.log('self.newTodoTitle changed', newValue);
-      },
-      true);
 
-    $scope.$watch(function(){
-        return self.todos;
-      }, function(newValue, oldValue){
-        console.log('self.todos changed', newValue);
-      },
-      true);
-*/
   });
