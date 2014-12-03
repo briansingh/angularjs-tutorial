@@ -60,7 +60,7 @@ angular.module('angularjsTutorial')
 
       removeTodo : function(todo){
         todos = todos.filter(function(item){
-          return item !== todo;
+          return item.id !== todo.id;
         });
         saveToLocalStorage();
       },
