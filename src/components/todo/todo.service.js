@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .factory('TodoService', ['$window', function ($window) {
+  .factory('TodoService', ['$window', '$log', '$q', '$timeout', function ($window, $log, $q, $timeout) {
 
-    console.log('TodoService instantiated');
+    $log.log('TodoService instantiated');
 
     var localStorageTodosKey = 'todos',
       todos;
@@ -17,20 +17,17 @@ angular.module('angularjsTutorial')
     };
 
     var saveToLocalStorage = function(){
-      console.trace();
-      console.log('saveToLocalStorage', todos, angular.toJson(todos));
+      $log.log('saveToLocalStorage', todos, angular.toJson(todos));
       $window.localStorage.setItem(localStorageTodosKey, angular.toJson(todos));
     };
 
     var init = function(){
       getFromLocalStorage();
-
       if (!todos){
         todos = [];
         saveToLocalStorage();
       }
-
-      console.log("$window.localStorage['todos']", $window.localStorage.getItem(localStorageTodosKey));
+      $log.log("$window.localStorage['todos']", $window.localStorage.getItem(localStorageTodosKey));
     }
 
     init();
@@ -38,31 +35,45 @@ angular.module('angularjsTutorial')
     return {
 
       getTodos : function(){
-        getFromLocalStorage();
-        return todos;
+        var deferred = $q.defer();
+        $timeout(function(){
+          $log.log('getTodos resolving promise');
+          getFromLocalStorage();
+          deferred.resolve(todos);
+        }, 50);
+        $log.log('getTodos returning promise');
+        return deferred.promise;
       },
 
       addTodo : function(options){
-        console.log('addTodo', options);
-        var newTodo = {
-          id : Date.now().toString() + Math.random(),
-          title : options.title,
-          completed : false
-        };
-
-        todos.push(newTodo);
-
-        saveToLocalStorage();
-
-        return newTodo;
+        var deferred = $q.defer();
+        $timeout(function(){
+          $log.log('addTodo resolving promise');
+          var newTodo = {
+            id : Date.now().toString() + Math.random(),
+            title : options.title,
+            completed : false
+          };
+          todos.push(newTodo);
+          saveToLocalStorage();
+          deferred.resolve(newTodo);
+        }, 50);
+        $log.log('addTodo returning promise');
+        return deferred.promise;
       },
 
-
       removeTodo : function(todo){
-        todos = todos.filter(function(item){
-          return item.id !== todo.id;
-        });
-        saveToLocalStorage();
+        var deferred = $q.defer();
+        $timeout(function(){
+          $log.log('removeTodo resolving promise');
+          todos = todos.filter(function(item){
+            return item.id !== todo.id;
+          });
+          saveToLocalStorage();
+          deferred.resolve();
+        }, 50);
+        $log.log('removeTodo returning promise');
+        return deferred.promise;
       },
 
       saveTodos : function(){

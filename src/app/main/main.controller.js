@@ -1,32 +1,46 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .controller('MainCtrl', ['$scope', 'TodoService', function ($scope, TodoService) {
-    console.log('MainCtrl instantiated');
+  .controller('MainCtrl', ['$scope', '$log', '$q', 'TodoService', function ($scope, $log, $q, TodoService) {
+    $log.log('MainCtrl instantiated');
     var self = this;
 
     self.newTodoTitle = '';
 
-
     self.getTodos = function(){
-      self.todos = TodoService.getTodos();
-      console.log('self.todos', self.todos);
-      return self.todos;
+      TodoService.getTodos()
+        .then(function(todos){
+          self.todos = todos;
+        });
     };
 
     self.addTodo = function(options){
-      var newTodo = TodoService.addTodo(options);
-      self.getTodos();
+      var deferred = $q.defer(),
+        newTodo;
 
-      self.newTodoTitle = '';
+      TodoService.addTodo(options)
+        .then(function(newTodoResult){
+          newTodo = newTodoResult;
+        },
+        function(err){
+          $log.log(err);
+        })
+        .then(self.getTodos)
+        .then(function(todos){
+          self.newTodoTitle = '';
+          deferred.resolve(newTodo);
+        })
+        .catch(function(err){
+          $log.log(err);
+          deferred.reject(err);
+        });
 
-      return newTodo;
+      return deferred.promise;
     };
 
-
     self.removeTodo = function(todo){
-      TodoService.removeTodo(todo);
-      self.getTodos();
+      return TodoService.removeTodo(todo)
+        .then(self.getTodos);
     };
 
     self.getTodoClasses = function(todo){
@@ -36,7 +50,6 @@ angular.module('angularjsTutorial')
     };
 
     self.saveTodos = function(){
-      console.log('saveTodos');
       TodoService.saveTodos();
     }
 
