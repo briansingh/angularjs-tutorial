@@ -2,22 +2,11 @@
 
 describe('TodoService', function(){
   var TodoService;
-  var $window;
 
   beforeEach(module('angularjsTutorial'));
 
-  beforeEach(inject(function (_TodoService_, _$window_) {
+  beforeEach(inject(function (_TodoService_) {
     TodoService = _TodoService_;
-    $window = _$window_;
-
-    var storage = {};
-    spyOn($window.localStorage, 'getItem').andCallFake(function (key) {
-      return storage[key];
-    });
-    spyOn($window.localStorage, 'setItem').andCallFake(function (key, value) {
-      return storage[key] = value;
-    });
-
   }));
 
   describe('#getTodos', function(){

@@ -2,30 +2,16 @@
 
 describe('controllers', function(){
   var scope;
-  var TodoService;
-  var $window;
 
   beforeEach(module('angularjsTutorial'));
 
-  beforeEach(inject(function($rootScope, _TodoService_, _$window_) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
-    TodoService = _TodoService_;
-    $window = _$window_;
-
-    var storage = {};
-    spyOn($window.localStorage, 'getItem').andCallFake(function (key) {
-      return storage[key];
-    });
-    spyOn($window.localStorage, 'setItem').andCallFake(function (key, value) {
-      return storage[key] = value;
-    });
-
   }));
 
   it('should have an array of todos', inject(function($controller) {
     var mainCtrl = $controller('MainCtrl', {
-      $scope : scope,
-      TodoService : TodoService
+      $scope : scope
     });
 
     expect(angular.isArray(mainCtrl.todos)).toBeTruthy();
@@ -33,8 +19,7 @@ describe('controllers', function(){
 
   it('should be able to add a todo and return the newly created todo', inject(function($controller) {
     var mainCtrl = $controller('MainCtrl', {
-      $scope : scope,
-      TodoService : TodoService
+      $scope : scope
     });
 
     var newTodo = mainCtrl.addTodo({
@@ -47,8 +32,7 @@ describe('controllers', function(){
 
   it('should be able to remove a todo by reference', inject(function($controller) {
     var mainCtrl = $controller('MainCtrl', {
-      $scope : scope,
-      TodoService : TodoService
+      $scope : scope
     });
 
     var title = 'test title';
@@ -67,8 +51,7 @@ describe('controllers', function(){
 
   it('should create "title" and "completed" properties on todos', inject(function($controller) {
     var mainCtrl = $controller('MainCtrl', {
-      $scope : scope,
-      TodoService : TodoService
+      $scope : scope
     });
 
     mainCtrl.addTodo({
