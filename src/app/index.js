@@ -1,6 +1,6 @@
 'use strict';
 
-var angularjsTutorial = angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router']);
+var angularjsTutorial = angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'firebase']);
 
 angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider

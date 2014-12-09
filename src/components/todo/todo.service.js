@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .factory('TodoService', ['$window', '$log', '$q', '$timeout', function ($window, $log, $q, $timeout) {
+  .factory('TodoService', ['$window', '$log', '$q', '$timeout', '$firebase', function ($window, $log, $q, $timeout, $firebase) {
 
     $log.log('TodoService instantiated');
 
