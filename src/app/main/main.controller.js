@@ -8,39 +8,27 @@ angular.module('angularjsTutorial')
     self.newTodoTitle = '';
 
     self.getTodos = function(){
-      TodoService.getTodos()
+      return TodoService.getTodos()
         .then(function(todos){
           self.todos = todos;
+          return self.todos;
         });
     };
 
     self.addTodo = function(options){
-      var deferred = $q.defer(),
-        newTodo;
-
-      TodoService.addTodo(options)
+      var newTodo;
+      return TodoService.addTodo(options)
         .then(function(newTodoResult){
           newTodo = newTodoResult;
+          self.newTodoTitle = '';
         },
         function(err){
-          $log.log(err);
-        })
-        .then(self.getTodos)
-        .then(function(todos){
-          self.newTodoTitle = '';
-          deferred.resolve(newTodo);
-        })
-        .catch(function(err){
-          $log.log(err);
-          deferred.reject(err);
+          console.log(err);
         });
-
-      return deferred.promise;
     };
 
     self.removeTodo = function(todo){
-      return TodoService.removeTodo(todo)
-        .then(self.getTodos);
+      return TodoService.removeTodo(todo);
     };
 
     self.getTodoClasses = function(todo){
@@ -49,8 +37,8 @@ angular.module('angularjsTutorial')
       }
     };
 
-    self.saveTodos = function(){
-      TodoService.saveTodos();
+    self.saveTodo = function(todo){
+      return TodoService.saveTodo(todo);
     }
 
     self.getTodos();

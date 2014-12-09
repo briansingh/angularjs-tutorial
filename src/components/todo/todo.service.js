@@ -1,33 +1,21 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .factory('TodoService', ['$window', '$log', '$q', '$timeout', '$firebase', function ($window, $log, $q, $timeout, $firebase) {
+  .constant('firebaseUrl', 'https://bsangularjstutorial.firebaseio.com/');
+
+angular.module('angularjsTutorial')
+  .factory('TodoService', ['$window', '$log', '$q', '$timeout', '$firebase', 'firebaseUrl',
+              function ($window, $log, $q, $timeout, $firebase, firebaseUrl) {
 
     $log.log('TodoService instantiated');
 
-    var localStorageTodosKey = 'todos',
-      todos;
+    var localStorageTodosKey = 'todos', todos;
 
-    var getFromLocalStorage = function(){
-      var result = $window.localStorage.getItem(localStorageTodosKey);
-      if (result){
-        todos = JSON.parse(result);
-      }
-      return todos;
-    };
-
-    var saveToLocalStorage = function(){
-      $log.log('saveToLocalStorage', todos, angular.toJson(todos));
-      $window.localStorage.setItem(localStorageTodosKey, angular.toJson(todos));
-    };
+    var firebaseReference = new Firebase(firebaseUrl + 'todos');
+    var firebaseSync = $firebase(firebaseReference);
 
     var init = function(){
-      getFromLocalStorage();
-      if (!todos){
-        todos = [];
-        saveToLocalStorage();
-      }
-      $log.log("$window.localStorage['todos']", $window.localStorage.getItem(localStorageTodosKey));
+
     }
 
     init();
@@ -36,48 +24,59 @@ angular.module('angularjsTutorial')
 
       getTodos : function(){
         var deferred = $q.defer();
-        $timeout(function(){
-          $log.log('getTodos resolving promise');
-          getFromLocalStorage();
+        firebaseSync.$asArray().$loaded().then(function(response){
+          todos = response;
+          $log.log('todos loaded', todos === response, response);
           deferred.resolve(todos);
-        }, 50);
-        $log.log('getTodos returning promise');
+        }).catch(function(err){
+          $log.log('Error retrieving todos from firebase', err);
+        });
         return deferred.promise;
       },
 
       addTodo : function(options){
         var deferred = $q.defer();
-        $timeout(function(){
-          $log.log('addTodo resolving promise');
-          var newTodo = {
-            id : Date.now().toString() + Math.random(),
-            title : options.title,
-            completed : false
-          };
-          todos.push(newTodo);
-          saveToLocalStorage();
-          deferred.resolve(newTodo);
-        }, 50);
-        $log.log('addTodo returning promise');
+        todos.$add({
+          title : options.title,
+          completed : false
+        }).then(function(newTodoRef){
+          $log.log('new todo added', newTodoRef.$id, newTodoRef.key(), newTodoRef, todos);
+          $log.log('resolving addTodo promise');
+          deferred.resolve(newTodoRef);
+        }).catch(function(err){
+          console.log('error adding todo', err);
+          $log.log('rejecting addTodo promise');
+          deferred.reject(err);
+        });
         return deferred.promise;
       },
 
       removeTodo : function(todo){
         var deferred = $q.defer();
-        $timeout(function(){
-          $log.log('removeTodo resolving promise');
-          todos = todos.filter(function(item){
-            return item.id !== todo.id;
+        todos.$remove(todo).then(function(todoRef){
+          $log.log('resolving removeTodo promise');
+          deferred.resolve(todoRef);
+        })
+          .catch(function(err){
+            $log.log('error removing todo', err);
+            $log.log('rejecting removeTodo promise');
+            deferred.reject(err);
           });
-          saveToLocalStorage();
-          deferred.resolve();
-        }, 50);
-        $log.log('removeTodo returning promise');
         return deferred.promise;
       },
 
-      saveTodos : function(){
-        saveToLocalStorage();
+      saveTodo : function(todo){
+        var deferred = $q.defer();
+        todos.$save(todo).then(function(todoRef){
+          $log.log('resolving saveTodo promise');
+          deferred.resolve(todoRef);
+        })
+          .catch(function(err){
+            $log.log('error saving todo', err);
+            $log.log('rejecting saveTodo promise');
+            deferred.reject(err);
+          });
+        return deferred.promise;
       }
     };
   }]);
