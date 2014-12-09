@@ -34,12 +34,12 @@ angular.module('angularjsTutorial')
     self.getTodoClasses = function(todo){
       return {
         'completed' : todo.completed
-      }
+      };
     };
 
     self.saveTodo = function(todo){
       return TodoService.saveTodo(todo);
-    }
+    };
 
     self.getTodos();
   }]);

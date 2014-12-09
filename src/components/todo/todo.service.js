@@ -9,14 +9,14 @@ angular.module('angularjsTutorial')
 
     $log.log('TodoService instantiated');
 
-    var localStorageTodosKey = 'todos', todos;
+    var todos;
 
     var firebaseReference = new Firebase(firebaseUrl + 'todos');
     var firebaseSync = $firebase(firebaseReference);
 
     var init = function(){
 
-    }
+    };
 
     init();
 
