@@ -1,20 +1,16 @@
 'use strict';
 
 describe('TodoService', function(){
-  var TodoService, $timeout;
+  var TodoService;
 
   beforeEach(module('angularjsTutorial'));
-
-  beforeEach(inject(function (_$timeout_) {
-    $timeout = _$timeout_;
-  }));
 
   beforeEach(inject(function (_TodoService_) {
     TodoService = _TodoService_;
   }));
 
   describe('#getTodos', function(){
-    it('should return an array', function(done) {
+    it('should return an array', function() {
       TodoService.getTodos()
         .then(function(todos){
           expect(angular.isArray(todos)).toBeTruthy();
@@ -22,15 +18,13 @@ describe('TodoService', function(){
         })
         .finally(function(){
           console.log('finally');
-          done();
         });
-      $timeout.flush();
     });
   });
 
   describe('#addTodo', function(){
 
-    it('should be able to add a todo and return the newly created todo', function(done) {
+    it('should be able to add a todo and return the newly created todo', function() {
       var obj = { title : 'test title' };
       TodoService.addTodo(obj)
         .then(function(newTodo){
@@ -49,13 +43,10 @@ describe('TodoService', function(){
         })
         .finally(function(){
           console.log('finally');
-          done();
         });
-      $timeout.flush();
-      $timeout.flush();
     });
 
-    it('should create "title" and "completed" properties on todo', function(done) {
+    it('should create "title" and "completed" properties on todo', function() {
       var obj = { title : 'test title' };
       TodoService.addTodo(obj)
         .then(function(){
@@ -73,16 +64,13 @@ describe('TodoService', function(){
         })
         .finally(function(){
           console.log('finally');
-          done();
         });
-      $timeout.flush();
-      $timeout.flush();
     });
 
   });
 
   describe('#removeTodo', function(){
-    it('should be able to remove a todo', function(done) {
+    it('should be able to remove a todo', function() {
       var obj = { title : 'test title' };
       var newTodoReturned;
       TodoService.addTodo(obj)
@@ -114,11 +102,7 @@ describe('TodoService', function(){
         })
         .finally(function(){
           console.log('finally');
-          done();
         });
-      $timeout.flush();
-      $timeout.flush();
-      $timeout.flush();
     });
   });
 
