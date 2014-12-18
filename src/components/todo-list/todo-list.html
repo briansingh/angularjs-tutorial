@@ -1,0 +1,17 @@
+<ng-transclude></ng-transclude>
+<ul class="todos">
+  <li class="todo-item slide-animation" ng-repeat="todo in ajstTodoListCtrl.todos track by todo.$id" ng-class="ajstTodoListCtrl.getToDoClasses(todo)" >
+    <div class="input-group">
+            <span class="input-group-addon">
+              <input type="checkbox" ng-model="todo.completed" ng-change="ajstTodoListCtrl.saveTodo(todo)"/>
+            </span>
+      <input type="text" class="form-control" ng-model="todo.title" ng-change="ajstTodoListCtrl.saveTodo(todo)"/>
+            <span class="input-group-btn">
+              <button class="btn btn-default" ng-click="ajstTodoListCtrl.removeTodo(todo)">
+                <span class="glyphicon glyphicon-remove-circle"/>
+                <span class="sr-only">Remove</span>
+              </button>
+            </span>
+    </div>
+  </li>
+</ul>
