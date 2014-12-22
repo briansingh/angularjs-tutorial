@@ -6,7 +6,8 @@ angular.module('angularjsTutorial')
       scope : {
         onGetTodos : '&',
         onRemoveTodo : '&',
-        onSaveTodo : '&'
+        onSaveTodo : '&',
+        newTodoTitle : "="
       },
       controllerAs : 'ajstTodoListCtrl',
       controller : [

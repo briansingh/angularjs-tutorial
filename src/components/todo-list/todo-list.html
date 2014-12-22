@@ -1,4 +1,12 @@
 <ng-transclude></ng-transclude>
+
+<div>Inside directive template, new todo title: {{newTodoTitle}}
+  <br/>
+  <span ng-bind="newTodoTitle"></span>
+  <br/>
+  <input ng-model="newTodoTitle" type="text"/>
+</div>
+
 <ul class="todos">
   <li class="todo-item slide-animation" ng-repeat="todo in ajstTodoListCtrl.todos track by todo.$id" ng-class="ajstTodoListCtrl.getToDoClasses(todo)" >
     <div class="input-group">

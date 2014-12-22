@@ -17,8 +17,10 @@
         on-get-todos="mainCtrl.onGetTodos(todos)"
         on-remove-todo="mainCtrl.onRemoveTodo(todo)"
         on-save-todo="mainCtrl.onSaveTodo(todo)"
+        new-todo-title="mainCtrl.newTodoTitle"
         >
         <h2>First todo list</h2>
+        <div>Going to add a new todo with the title "{{mainCtrl.newTodoTitle}}"</div>
       </ajst-todo-list>
 
     </div>
