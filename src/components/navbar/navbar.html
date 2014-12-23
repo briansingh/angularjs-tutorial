@@ -10,6 +10,9 @@
       <li class="active"><a ui-sref="home">Home</a></li>
       <li><a ng-href="#">About</a></li>
       <li><a ui-sref="contact">Contact</a></li>
+      <li><a ui-sref="login" ng-hide="globalCtrl.user">Log In</a></li>
+      <li><a ng-href="#" ng-show="globalCtrl.user" ng-click="globalCtrl.logout()">Log Out</a></li>
+
     </ul>
 
     <ul class="nav navbar-nav navbar-right">

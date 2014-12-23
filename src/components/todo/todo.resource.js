@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .constant('firebaseUrl', 'https://bsangularjstutorial.firebaseio.com/');
-
-angular.module('angularjsTutorial')
   .factory('Todo', ['$resource', '$log', 'firebaseUrl', function ($resource, $log, firebaseUrl) {
     $log.log('Todo instantiated');
 

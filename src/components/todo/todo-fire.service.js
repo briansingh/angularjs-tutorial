@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .constant('firebaseUrl', 'https://bsangularjstutorial.firebaseio.com/');
-
-angular.module('angularjsTutorial')
   .factory('TodoFireService', ['$window', '$log', '$q', '$timeout', '$firebase', 'firebaseUrl',
     function ($window, $log, $q, $timeout, $firebase, firebaseUrl) {
 
