@@ -8,9 +8,6 @@ angular.module('angularjsTutorial')
 
       var todos;
 
-      var firebaseReference = new Firebase(firebaseUrl + 'todos');
-      var firebaseSync = $firebase(firebaseReference);
-
       var init = function(){
 
       };
@@ -19,8 +16,12 @@ angular.module('angularjsTutorial')
 
       return {
 
-        getTodos : function(){
+        getTodos : function(user){
           var deferred = $q.defer();
+
+          var firebaseReference = new Firebase(firebaseUrl + 'users/' + user.uid + '/todos');
+          var firebaseSync = $firebase(firebaseReference);
+
           firebaseSync.$asArray().$loaded().then(function(response){
             todos = response;
             $log.log('todos loaded', todos === response, response);

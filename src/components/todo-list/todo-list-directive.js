@@ -7,7 +7,8 @@ angular.module('angularjsTutorial')
         onGetTodos : '&',
         onRemoveTodo : '&',
         onSaveTodo : '&',
-        newTodoTitle : "="
+        newTodoTitle : "=",
+        user : '='
       },
       controllerAs : 'ajstTodoListCtrl',
       controller : [
@@ -18,7 +19,7 @@ angular.module('angularjsTutorial')
           var self = this;
 
           self.getTodos = function(){
-            return TodoFireService.getTodos()
+            return TodoFireService.getTodos($scope.user)
               .then(function(todos){
                 self.todos = todos;
                 $log.log('ajstTodoList calling $scope.onGetTodos()');
