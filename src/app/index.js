@@ -22,6 +22,11 @@ angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
         templateUrl: 'app/login/login.html',
         controller: 'LoginCtrl as loginCtrl'
       })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'app/profile/profile.html',
+        controller: 'ProfileCtrl as profileCtrl'
+      })
       .state('contact', {
         url: '/contact',
         templateUrl: 'app/contact/contact.html',

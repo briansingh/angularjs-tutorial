@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Profile</h1>
+
+  <form ng-submit="profileCtrl.submit(globalCtrl.user.uid, globalCtrl.user.password.email)" class="row">
+    <div class="form-group">
+      <label for="">User Name</label>
+      <input type="name" class="form-control" placeholder="Name" ng-model="globalCtrl.user.uid"/>
+    </div>
+    <div class="form-group">
+      <label for="">Email address</label>
+      <input type="email" class="form-control" placeholder="Email" ng-model="globalCtrl.user.password.email"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" placeholder="Password" ng-model="profileCtrl.password"/>
+    </div>
+
+    <button type="submit" class="btn btn-default">Save</button>
+  </form>
+
+</div>
