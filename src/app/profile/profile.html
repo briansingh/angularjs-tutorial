@@ -5,10 +5,10 @@
 
   <h1 class="row">{{profileCtrl.mode}}</h1>
 
-  <form ng-submit="profileCtrl.submit(globalCtrl.user.uid, globalCtrl.user.password.email)" class="row">
+  <form ng-submit="profileCtrl.submit(globalCtrl.user.uid, globalCtrl.user.name, globalCtrl.user.password.email)" class="row">
     <div class="form-group" ng-show="profileCtrl.mode=='Edit'" >
       <label for="">User Name</label>
-      <input type="name" class="form-control" placeholder="Name" ng-model="globalCtrl.user.uid"/>
+      <input type="name" class="form-control" placeholder="Name" ng-model="globalCtrl.user.name"/>
     </div>
     <div class="form-group">
       <label for="">Email address</label>

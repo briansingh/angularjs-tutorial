@@ -1,19 +1,38 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .factory('ProfileFireService', ['$window', '$log', '$q', '$timeout', '$firebase', 'firebaseUrl',
-    function ($window, $log, $q, $timeout, $firebase, firebaseUrl) {
+  .factory('ProfileFireService', ['$window', '$log', '$q', '$timeout', '$firebase', 'firebaseUrl', '$http',
+    function ($window, $log, $q, $timeout, $firebase, firebaseUrl, $http) {
 
       $log.log('ProfileFireService instantiated');
 
-      var firebaseReference = new Firebase(firebaseUrl);
+      var rootReference = new Firebase(firebaseUrl);
       var message;
       var redirect;
 
       return {
 
+        getProfileName : function(uid){
+          var deferred = $q.defer();
+          $http.get(firebaseUrl + 'users/' + uid + '/name.json')
+            .success(function(data, status){
+              $log.log('ProfileFireService getProfileName success', data);
+              deferred.resolve(data);
+            })
+            .error(function(data, status){
+              $log.log('ProfileFireService getProfileName error', data);
+              deferred.reject(data);
+            });
+          return deferred.promise;
+        },
+
+        setProfileName : function(uid, name){
+          var nameReference = new Firebase(firebaseUrl + 'users/' + uid);
+          nameReference.update({name : name});
+        },
+
         resetProfilePassword : function(email, callback){
-          firebaseReference.resetPassword({
+          rootReference.resetPassword({
             email : email
            }, function(error) {
             if (error === null) {
@@ -27,7 +46,7 @@ angular.module('angularjsTutorial')
         },
 
         deleteProfile : function(email, password, callback){
-          firebaseReference.removeUser({
+          rootReference.removeUser({
             email : email,
             password : password
           }, function(error) {

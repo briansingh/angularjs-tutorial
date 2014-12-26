@@ -8,19 +8,25 @@ angular.module('angularjsTutorial')
     self.mode = 'Edit'; // Edit, Delete
     self.err = null;
 
-    self.submit = function(uid, email) {
+    self.submit = function(uid, name, email) {
       self.err = null;
-      if(uid == undefined || email == undefined || self.password == undefined){
-        self.err = { 'message' : "Please enter uid/email/password" };
+      if(name == undefined){
+        self.err = { 'message' : "Please enter name" };
+        return false;
+      }
+
+      if(email == undefined){
+        self.err = { 'message' : "Please enter email" };
+        return false;
+      }
+
+      if(self.password == undefined){
+        self.err = { 'message' : "Please enter password" };
         return false;
       }
 
       if(self.mode === 'Edit') {
-        $log.log('ProfileCtrl.uid is', uid);
-        $log.log('ProfileCtrl.email is', email);
-        $log.log('ProfileCtrl.password is', self.password);
-
-        return false;
+        ProfileFireService.setProfileName(uid, name);
       }
 
       if(self.mode === 'Delete') {

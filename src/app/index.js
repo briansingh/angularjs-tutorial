@@ -50,12 +50,19 @@ angularjsTutorial.run(['$rootScope', '$log', '$state',
   }
 ]);
 
-angularjsTutorial.controller('GlobalCtrl', ['AuthService', '$log', '$state', function(AuthService, $log, $state){
+angularjsTutorial.controller('GlobalCtrl', ['AuthService', '$log', '$state', 'ProfileFireService', function(AuthService, $log, $state, ProfileFireService){
   var self = this;
 
   AuthService.onAuth(function(user){
     $log.log('AuthService.onAuth', user);
     self.user = user;
+    if(user){
+      self.user.name = user.uid;
+      ProfileFireService.getProfileName(user.uid)
+        .then(function(response){
+          self.user.name = response;
+        })
+    }
   });
 
   $log.log('User is ', this.user);
