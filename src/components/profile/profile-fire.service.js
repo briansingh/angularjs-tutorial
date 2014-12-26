@@ -8,6 +8,7 @@ angular.module('angularjsTutorial')
 
       var firebaseReference = new Firebase(firebaseUrl);
       var message;
+      var redirect;
 
       return {
 
@@ -25,19 +26,30 @@ angular.module('angularjsTutorial')
           })
         },
 
-        deleteProfile : function(email, password, message){
+        deleteProfile : function(email, password, callback){
           firebaseReference.removeUser({
             email : email,
             password : password
           }, function(error) {
-            if (error === null) {
-              message = "User removed successfully";
+            if (error) {
+              switch (error.code) {
+                case "INVALID_USER":
+                  message = "The specified user account does not exist.";
+                  break;
+                case "INVALID_PASSWORD":
+                  message = "The specified user account password is incorrect.";
+                  break;
+                default:
+                  message = "Error removing user: " + error;
+              }
+              redirect = false;
             } else {
-              message = "Error removing user: " + error;
+              message = "User removed successfully";
+              redirect = true;
             }
             $log.log(message);
-            return message;
-          })
+            callback({'message' : message, 'redirect' : redirect});
+          });
         }
       };
     }]);

@@ -1,8 +1,12 @@
 <div class="container">
+  <h4 id="ErrorMessage" class="row">{{profileCtrl.err.message}}</h4>
+
   <h1>Profile</h1>
 
+  <h1 class="row">{{profileCtrl.mode}}</h1>
+
   <form ng-submit="profileCtrl.submit(globalCtrl.user.uid, globalCtrl.user.password.email)" class="row">
-    <div class="form-group">
+    <div class="form-group" ng-show="profileCtrl.mode=='Edit'" >
       <label for="">User Name</label>
       <input type="name" class="form-control" placeholder="Name" ng-model="globalCtrl.user.uid"/>
     </div>
@@ -15,7 +19,12 @@
       <input type="password" class="form-control" placeholder="Password" ng-model="profileCtrl.password"/>
     </div>
 
-    <button type="submit" class="btn btn-default">Save</button>
+    <button type="submit" class="btn btn-default">{{profileCtrl.mode}}</button>
   </form>
+
+  <p class="row"><button type="button" class="btn btn-link" ng-click="profileCtrl.mode='Edit'">Edit profile</button></p>
+
+  <p class="row"><button type="button" class="btn btn-link" ng-click="profileCtrl.mode='Delete'">Delete profile</button></p>
+
 
 </div>
