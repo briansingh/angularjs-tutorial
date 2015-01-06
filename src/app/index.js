@@ -27,6 +27,11 @@ angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
         templateUrl: 'app/profile/profile.html',
         controller: 'ProfileCtrl as profileCtrl'
       })
+      .state('graphs', {
+        url: '/graphs',
+        templateUrl: 'app/graphs/graphs.html',
+        controller: 'GraphsCtrl as graphsCtrl'
+      })
       .state('contact', {
         url: '/contact',
         templateUrl: 'app/contact/contact.html',
