@@ -1,6 +1,6 @@
 'use strict';
 
-var angularjsTutorial = angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'firebase']);
+var angularjsTutorial = angular.module('angularjsTutorial', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'firebase', 'ui.grid', 'ui.grid.edit', 'ui.grid.cellNav']);
 
 angular.module('angularjsTutorial')
   .constant('firebaseUrl', 'https://bsangularjstutorial.firebaseio.com/');
@@ -58,6 +58,11 @@ angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
             return deferred.promise;
           }]
         }
+      })
+      .state('admin.users', {
+        url: '/users',
+        templateUrl: 'app/admin/users/users.html',
+        controller: 'AdminUsersCtrl as adminUsersCtrl'
       })
       .state('contact', {
         url: '/contact',

@@ -59,4 +59,22 @@ $item-height : 3em;
   }
 }
 
+.login-page {
+  form {
+    margin-bottom:1em;
+  }
+
+  .btn-link {
+    padding-left: 0;
+  }
+}
+
+
+.admin-page {
+  .user-grid {
+    width: 100%;
+    height: 30em;
+  }
+}
+
 @import "../components/todo-graph/todo-graph";
