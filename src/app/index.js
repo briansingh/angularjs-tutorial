@@ -32,6 +32,33 @@ angularjsTutorial.config(function ($stateProvider, $urlRouterProvider) {
         templateUrl: 'app/graphs/graphs.html',
         controller: 'GraphsCtrl as graphsCtrl'
       })
+      .state('admin', {
+        url: '/admin',
+        templateUrl: 'app/admin/admin.html',
+        controller: 'AdminCtrl as adminCtrl',
+        resolve : {
+          'user' : ['AuthService', 'UserService', '$q', function(AuthService, UserService, $q){
+            var deferred = $q.defer();
+
+            AuthService.requireUser()
+              .then(function(authData){
+                return UserService.getById(authData.uid);
+              })
+              .then(function(user){
+                if (user.roles.admin){
+                  deferred.resolve();
+                } else {
+                  deferred.reject('ADMIN_REQUIRED');
+                }
+              })
+              .catch(function(err){
+                deferred.reject(err);
+              });
+
+            return deferred.promise;
+          }]
+        }
+      })
       .state('contact', {
         url: '/contact',
         templateUrl: 'app/contact/contact.html',
@@ -55,19 +82,28 @@ angularjsTutorial.run(['$rootScope', '$log', '$state',
   }
 ]);
 
-angularjsTutorial.controller('GlobalCtrl', ['AuthService', '$log', '$state', 'ProfileFireService', function(AuthService, $log, $state, ProfileFireService){
+angularjsTutorial.controller('GlobalCtrl', ['AuthService', '$log', '$state', 'ProfileFireService', 'UserService',
+  function(AuthService, $log, $state, ProfileFireService, UserService){
   var self = this;
 
-  AuthService.onAuth(function(user){
-    $log.log('AuthService.onAuth', user);
-    self.user = user;
-    if(user){
-      self.user.name = user.uid;
-      ProfileFireService.getProfileName(user.uid)
+  AuthService.onAuth(function(authData){
+    $log.log('AuthService.onAuth', authData);
+    self.user = authData;
+
+    if(authData){
+      self.user.name = authData.uid;
+      ProfileFireService.getProfileName(authData.uid)
         .then(function(response){
           self.user.name = response;
         })
     }
+
+    if (!authData){ return;}
+
+    UserService.getById(authData.uid).then(function(user){
+      self.userData = user;
+      $log.log('UserService.getById user retrieved', self.userData);
+    });
   });
 
   $log.log('User is ', this.user);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('angularjsTutorial')
-  .factory('AuthService', ['$window', '$log', '$firebase', '$firebaseAuth', 'firebaseUrl',
-    function($window, $log, $firebase, $firebaseAuth, firebaseUrl) {
+  .factory('AuthService', ['$window', '$log', '$q', '$firebase', '$firebaseAuth', 'firebaseUrl',
+    function($window, $log, $q, $firebase, $firebaseAuth, firebaseUrl) {
 
 // Auth needs a reference at the root of your Firebase, no nested path
       var firebaseReference = new $window.Firebase(firebaseUrl);
@@ -23,7 +23,7 @@ angular.module('angularjsTutorial')
           .then(function(){
             // We don't get anything passed to the promise resolution for $createUser
             $log.log('auth.$createUser succeeded');
-            return auth.$authWithPassword({
+            return api.login({
               email : email,
               password : password
             });
@@ -47,10 +47,26 @@ angular.module('angularjsTutorial')
 
       api.login = function(email, password){
         // returns promise
-        return auth.$authWithPassword({
+        var deferred = $q.defer();
+
+        auth.$authWithPassword({
           email : email,
           password : password
+        }).then(function(authData){
+          var userProfileReference = new $window.Firebase(firebaseUrl + '/users/' + authData.uid + '/profile');
+          var userProfile = $firebase(userProfileReference).$asObject();
+          userProfile.uid = authData.uid;
+          userProfile.email = authData.password.email;
+          userProfile.$save().then(function(){
+            $log.log('user profile saved');
+            deferred.resolve(authData);
+          });
+
+        }).catch(function(err){
+          deferred.reject(err);
         });
+
+        return deferred.promise;
       };
 
       api.logout = function() {
